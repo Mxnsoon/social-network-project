@@ -1,0 +1,23 @@
+.nav {
+    grid-area: n;
+    background-color: burlywood;
+    padding: 20px;
+}
+
+.item a {
+    color: white;
+    text-decoration: none;
+}
+
+.item:last-child {
+    margin-top: 50px;
+}
+
+.item a.activeLink {
+    color: gold;
+}
+
+.friends__container {
+    display: flex;
+    flex-direction: row;
+}
