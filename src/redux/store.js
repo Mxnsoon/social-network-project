@@ -14,13 +14,7 @@ let store = {
             ],
             newPostText: 'my-site.com'
         },
-        sidebar: {
-            friends: [
-                {id: 1, name: 'Andrew'},
-                {id: 2, name: 'Sasha'},
-                {id: 3, name: 'Sveta'}
-            ]
-        },
+        sidebar: { },
         dialogsPage: {
             messages: [
                 {id: 1, message: 'Hi'},
