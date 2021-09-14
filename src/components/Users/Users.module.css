@@ -6,3 +6,8 @@
 .selectedPage {
     font-weight: bold;
 }
+
+.pages {
+    max-width: 800px;
+    overflow: hidden;
+}
