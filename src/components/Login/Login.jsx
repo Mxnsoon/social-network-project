@@ -5,8 +5,13 @@ import {login} from "../../redux/auth-reducer";
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import {loginValidator} from "../../utils/validators/validators";
+import {Redirect} from "react-router-dom";
 
 const Login = (props) => {
+
+    if (props.isAuth)
+        return <Redirect to={"/profile"} />
+
     return (
         <div>
             <h1>Login</h1>
@@ -66,4 +71,8 @@ const LoginForm = (props) => {
     )
 }
 
-export default connect(null, { login })(Login);
+const mapStateToProps = (state) => ({
+    isAuth: state.auth.isAuth
+})
+
+export default connect(mapStateToProps, { login })(Login);

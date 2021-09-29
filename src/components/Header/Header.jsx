@@ -7,7 +7,7 @@ const Header = (props) => {
         <img src='https://www.freelogodesign.org/Content/img/logo-ex-7.png' />
 
         <div className={s.loginBlock}>
-            {props.isAuth ? props.login :
+            {props.isAuth ? <div> {props.login} - <button onClick={props.logout}>Logout</button> </div> :
             <NavLink to={'/login'} >Login</NavLink> }
         </div>
     </header>

@@ -15,7 +15,6 @@ const authReducer = (state = initialState, action) => {
             return {
                 ...state,
                 ...action.payload,
-                isAuth: true
             }
 
         default:
@@ -49,7 +48,7 @@ export const logout = () => (dispatch) => {
     authAPI.logout()
         .then(response => {
             if (response.data.resultCode === 0) {
-                dispatch(getAuthUserData(null, null, null, false))
+                dispatch(setAuthUserData(null, null, null, false))
             }
         })
 }
