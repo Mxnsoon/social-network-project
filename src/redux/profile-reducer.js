@@ -21,7 +21,7 @@ const profileReducer = (state = initialState, action) => {
             let body = action.post
             return {
                 ...state,
-                posts: [...state.posts, {id: 10, message: body}],
+                posts: [...state.posts, {id: 10, message: body, likesCount: 50}],
             };
         }
         case SET_STATUS: {

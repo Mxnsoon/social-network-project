@@ -2,12 +2,15 @@ import React from 'react';
 import {useFormik} from "formik";
 import {connect} from "react-redux";
 import {login} from "../../redux/auth-reducer";
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import {loginValidator} from "../../utils/validators/validators";
 
 const Login = (props) => {
     return (
         <div>
             <h1>Login</h1>
-            <LoginForm/>
+            <LoginForm login={props.login} />
         </div>
     );
 };
@@ -15,45 +18,49 @@ const Login = (props) => {
 const LoginForm = (props) => {
     const formik = useFormik({
         initialValues: {
-            login: '',
+            email: '',
             password: '',
-            rememberMe: false,
+            rememberMe: false
         },
+        validationSchema: loginValidator,
         onSubmit: values => {
-            alert(JSON.stringify(values))
+            props.login(values.email, values.password, values.rememberMe)
         },
     });
 
     return (
         <form onSubmit={formik.handleSubmit}>
             <div>
-                <label htmlFor="login">Login</label>
-                <input
-                    id="login"
-                    name="login"
+            <label htmlFor="email">
+                <TextField
+                    variant="standard"
+                    name="email"
                     type="text"
-                    placeholder={"login"}
+                    placeholder={"email"}
                     onChange={formik.handleChange}
-                    value={formik.values.login}
+                    value={formik.values.email}
                 />
+            </label>
             </div>
             <div>
-                <label htmlFor="password">Password</label>
-                <input
-                    id="password"
+            <label htmlFor="password">
+                <TextField
+                    variant="standard"
                     name="password"
                     type="password"
                     placeholder={"password"}
                     onChange={formik.handleChange}
                     value={formik.values.password}
                 />
+            </label>
             </div>
             <div>
-                <label htmlFor="rememberMe"></label>
-                <input type={"checkbox"}/> Remember me
+                <label htmlFor="rememberMe">
+                <input type="checkbox" name="rememberMe" onChange={formik.handleChange} />RememberMe
+                </label>
             </div>
             <div>
-                <button type="submit">Login</button>
+                <Button type="submit" color="primary" variant="contained" >Login</Button>
             </div>
         </form>
     )

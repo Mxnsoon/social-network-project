@@ -4,6 +4,9 @@ import DialogItem from "./DialogItem/DialogItem";
 import Message from "./Message/Message";
 import {Redirect} from "react-router-dom";
 import {useFormik} from "formik";
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import {sendMessageValidator} from "../../utils/validators/validators";
 
 const Dialogs = (props) => {
 
@@ -34,23 +37,27 @@ const AddMessageForm = (props) => {
         initialValues: {
             message: '',
         },
-        onSubmit: values => {
+        validationSchema: sendMessageValidator,
+        onSubmit: (values, actions) => {
             props.sendMessage(values.message)
+            actions.resetForm()
         }
     })
 
     return (
         <form onSubmit={formik.handleSubmit}>
-            <input
+            <TextField
+                variant="standard"
                 id="message"
                 name="message"
                 type="text"
                 placeholder='Enter your message'
                 onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                error={formik.touched.message && Boolean(formik.errors.message)}
+                helperText={formik.touched.message && formik.errors.message}
                 value={formik.values.message}/>
-            <div>
-                <button>Отправить</button>
-            </div>
+                <Button type="submit" color="primary" variant="contained" >Отправить</Button>
         </form>
     )
 }
