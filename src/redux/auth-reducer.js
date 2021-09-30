@@ -1,4 +1,5 @@
 import {authAPI, usersAPI} from "../api/api";
+import {setStatus} from "./profile-reducer";
 
 const SET_USER_DATA = 'SET_USER_DATA'
 
@@ -35,11 +36,13 @@ export const getAuthUserData = () => (dispatch) => {
         })
 }
 
-export const login = (email, password, rememberMe) => (dispatch) => {
+export const login = (email, password, rememberMe, actions) => (dispatch) => {
     authAPI.login(email, password, rememberMe)
         .then(response => {
             if (response.data.resultCode === 0) {
                 dispatch(getAuthUserData())
+            } else {
+                actions.setStatus(response.data.messages)
             }
         })
 }

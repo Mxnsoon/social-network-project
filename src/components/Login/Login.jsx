@@ -6,6 +6,7 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import {loginValidator} from "../../utils/validators/validators";
 import {Redirect} from "react-router-dom";
+import styles from './Login.module.css'
 
 const Login = (props) => {
 
@@ -28,14 +29,16 @@ const LoginForm = (props) => {
             rememberMe: false
         },
         validationSchema: loginValidator,
-        onSubmit: values => {
-            props.login(values.email, values.password, values.rememberMe)
+        onSubmit: (values, actions) => {
+            props.login(values.email, values.password, values.rememberMe, actions)
+            actions.setSubmitting(false)
         },
     });
 
     return (
         <form onSubmit={formik.handleSubmit}>
             <div>
+                {formik.status && <div className={styles.statusError}>{formik.status}</div> }
             <label htmlFor="email">
                 <TextField
                     variant="standard"
@@ -44,6 +47,9 @@ const LoginForm = (props) => {
                     placeholder={"email"}
                     onChange={formik.handleChange}
                     value={formik.values.email}
+                    onBlur={formik.handleBlur}
+                    error={formik.touched.email && Boolean(formik.errors.email)}
+                    helperText={formik.touched.email && formik.errors.email}
                 />
             </label>
             </div>
@@ -56,6 +62,9 @@ const LoginForm = (props) => {
                     placeholder={"password"}
                     onChange={formik.handleChange}
                     value={formik.values.password}
+                    onBlur={formik.handleBlur}
+                    error={formik.touched.password && Boolean(formik.errors.password)}
+                    helperText={formik.touched.password && formik.errors.password}
                 />
             </label>
             </div>

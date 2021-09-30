@@ -12,7 +12,7 @@ export const sendMessageValidator = Yup.object({
         .required('Нельзя отправить пустое сообщение')
 })
 
-export const loginValidator = Yup.object().shape({
+export const loginValidator = Yup.object({
     email: Yup.string().email('Неправильный email').required('Заполните это поле'),
     password: Yup.string()
         .required('Введите пароль')
