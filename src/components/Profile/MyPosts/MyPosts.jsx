@@ -2,23 +2,14 @@ import React from 'react';
 import s from './MyPosts.module.css';
 import Post from "./Post/Post";
 import {useFormik} from "formik";
-import * as Yup from 'yup';
 import {addPostValidator} from '../../../utils/validators/validators';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 
-const validationSchemaPost = Yup.object({
-    post: Yup.string()
-        .max(30, 'Max length is 30 symbols')
-        .required('Required')
-})
 
 const MyPosts = (props) => {
-
+    
     let postsElements = props.posts.map(p => <Post message={p.message} likesCount={p.likesCount}/>);
-
-    let newPostElement = React.createRef();
-
 
     return (
         <div className={s.postsBlock}>
