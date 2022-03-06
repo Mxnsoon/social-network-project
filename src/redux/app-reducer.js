@@ -1,5 +1,3 @@
-import {authAPI, usersAPI} from "../api/api";
-import {setStatus} from "./profile-reducer";
 import {getAuthUserData} from "./auth-reducer";
 
 const INITIALIZED_SUCCESS = 'INITIALIZED_SUCCESS'
