@@ -16,6 +16,6 @@
 
 .notSelectedPage {
     font-weight: normal;
-    color: white;
+    border: 1px solid grey;
     cursor: pointer;
 }
