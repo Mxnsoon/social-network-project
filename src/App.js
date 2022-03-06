@@ -31,18 +31,18 @@ class App extends Component {
                 <div className='app-wrapper-content'>
                     <Route path='/dialogs' render={withSuspense(DialogsContainer)}/>
                     <Route path='/profile/:userId?' render={withSuspense(ProfileContainer)}/>
-                        <Route path='/users' render={() => <UsersContainer/>}/>
-                        <Route path='/login' render={() => <LoginPage/>}/>
+                    <Route path='/users' render={() => <UsersContainer/>}/>
+                    <Route path='/login' render={() => <LoginPage/>}/>
 
-                    </div>
-                    </div>
-                    )
-                        ;
-                    }
-                    }
+                </div>
+            </div>
+        )
+            ;
+    }
+}
 
-                           const mapStateToProps=(state) => ({
-                        initialized: state.app.initialized
-                    })
+const mapStateToProps = (state) => ({
+    initialized: state.app.initialized
+})
 
-                        export default connect(mapStateToProps, {initializeApp})(App);
+export default connect(mapStateToProps, {initializeApp})(App);
