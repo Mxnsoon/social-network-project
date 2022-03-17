@@ -14,7 +14,8 @@ let initialState = {
         {id: 4, message: 'Dada', likesCount: 11}
     ],
     profile: null,
-    status: ''
+    status: '',
+    profileUpdateStatus: 'none'
 }
 
 const profileReducer = (state = initialState, action) => {
@@ -77,13 +78,14 @@ export const savePhoto = (file) => async (dispatch) => {
         dispatch(savePhotoSuccess(response.data.data.photos))
     }
 }
-export const saveProfile = (profile) => async (dispatch, getState) => {
+export const saveProfile = (profile, actions) => async (dispatch, getState) => {
     const userId = getState().auth.id;
     let response = await profileAPI.saveProfile(profile);
     if (response.data.resultCode === 0) {
         dispatch(getUserProfile(userId))
     } else {
-
+        actions.setStatus(response.data.messages)
+        return Promise.reject(response.data.messages)
     }
 }
 

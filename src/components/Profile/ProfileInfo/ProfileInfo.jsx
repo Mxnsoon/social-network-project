@@ -31,7 +31,7 @@ const ProfileInfo = ({profile, status, updateStatus, isOwner, savePhoto, savePro
                 {isOwner && <input type={"file"} onChange={onMainPhotoSelected}/>}
 
                 {editMode
-                    ? <ProfileDataForm deactivateEditMode={deactivateEditMode} profile={profile} saveProfile={saveProfile}/>
+                    ? <ProfileDataForm initialValues={profile} deactivateEditMode={deactivateEditMode} saveProfile={saveProfile}/>
                     : <ProfileData goToEditMode={() => {setEditMode(true)}} profile={profile} isOwner={isOwner}/>}
 
                 <ProfileStatusWithHooks status={status} updateStatus={updateStatus}/>

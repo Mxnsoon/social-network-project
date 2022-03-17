@@ -1,18 +1,34 @@
 import React from "react";
 import {useFormik} from "formik";
 import s from './ProfileInfo.module.css';
+import styles from "../../Login/Login.module.css";
 
-const ProfileDataForm = ({saveProfile, profile, deactivateEditMode}) => {
+const ProfileDataForm = ({saveProfile, deactivateEditMode, initialValues}) => {
     const formik = useFormik({
+        enableReinitialize: true,
         initialValues: {
-            fullName: profile.fullName,
-            lookingForAJob: profile.lookingForAJob,
-            lookingForAJobDescription: profile.lookingForAJobDescription,
-            aboutMe: profile.aboutMe
+            fullName: initialValues.fullName,
+            lookingForAJob: initialValues.lookingForAJob,
+            lookingForAJobDescription: initialValues.lookingForAJobDescription,
+            aboutMe: initialValues.aboutMe,
+            contacts: {
+                facebook: initialValues.contacts.facebook,
+                website: initialValues.contacts.website,
+                vk: initialValues.contacts.vk,
+                twitter: initialValues.contacts.twitter,
+                instagram: initialValues.contacts.instagram,
+                youtube: initialValues.contacts.youtube,
+                github: initialValues.contacts.github,
+                mainLink: initialValues.contacts.mainLink
+            }
         },
-        onSubmit: values => {
-            saveProfile(values)
-            deactivateEditMode()
+        onSubmit: (values, actions) => {
+            saveProfile(values, actions).then (() => {
+                deactivateEditMode()
+            }) .catch(e => {
+                console.log(e)
+            })
+            actions.setSubmitting(false)
         }
     })
 
@@ -21,6 +37,7 @@ const ProfileDataForm = ({saveProfile, profile, deactivateEditMode}) => {
             <div>
                 <button type="submit">save</button>
             </div>
+            {formik.status && <div className={styles.statusError}>{formik.status}</div> }
             <div>
                 <b>Full name</b>:
                 <div>
@@ -39,7 +56,12 @@ const ProfileDataForm = ({saveProfile, profile, deactivateEditMode}) => {
             <div>
                 <b>Looking for a job</b>:
                 <label htmlFor="lookingForAJob">
-                    <input type="checkbox" name="lookingForAJob" onChange={formik.handleChange}/>
+                    <input type="checkbox"
+                           name="lookingForAJob"
+                           onChange={formik.handleChange}
+                           checked={formik.values.lookingForAJob}
+                           onBlur={formik.handleBlur}
+                    />
                 </label>
             </div>
             <div>
@@ -71,8 +93,8 @@ const ProfileDataForm = ({saveProfile, profile, deactivateEditMode}) => {
                 </div>
             </div>
             <div>
-                <b>Contacts</b>: {Object.keys(profile.contacts).map(key => {
-                return <div className={s.contact}>
+                <b>Contacts</b>: {Object.keys(initialValues.contacts).map(key => {
+                return <div key={key} className={s.contact}>
                     <b>{key}</b>:
                     <div>
                         <label htmlFor={"contacts." + key}>
@@ -81,7 +103,7 @@ const ProfileDataForm = ({saveProfile, profile, deactivateEditMode}) => {
                                 type="text"
                                 placeholder={key}
                                 onChange={formik.handleChange}
-                                value={formik.values.key}
+                                value={formik.values.contacts[key] || ""}
                                 onBlur={formik.handleBlur}
                             />
                         </label>

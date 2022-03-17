@@ -9,7 +9,7 @@ import TextField from '@material-ui/core/TextField';
 
 const MyPosts = (props) => {
     
-    let postsElements = props.posts.map(p => <Post message={p.message} likesCount={p.likesCount}/>);
+    let postsElements = props.posts.map(p => <Post key={p.id} message={p.message} likesCount={p.likesCount}/>);
 
     return (
         <div className={s.postsBlock}>
