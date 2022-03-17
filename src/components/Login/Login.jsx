@@ -16,7 +16,7 @@ const Login = (props) => {
     return (
         <div>
             <h1>Login</h1>
-            <LoginForm login={props.login} />
+            <LoginForm login={props.login} captchaUrl={props.captchaUrl} />
         </div>
     );
 };
@@ -26,11 +26,12 @@ const LoginForm = (props) => {
         initialValues: {
             email: '',
             password: '',
-            rememberMe: false
+            rememberMe: false,
+            captcha: ''
         },
         validationSchema: loginValidator,
         onSubmit: (values, actions) => {
-            props.login(values.email, values.password, values.rememberMe, actions)
+            props.login(values.email, values.password, values.rememberMe, values.captcha, actions)
             actions.setSubmitting(false)
         },
     });
@@ -38,7 +39,6 @@ const LoginForm = (props) => {
     return (
         <form onSubmit={formik.handleSubmit}>
             <div>
-                {formik.status && <div className={styles.statusError}>{formik.status}</div> }
             <label htmlFor="email">
                 <TextField
                     variant="standard"
@@ -73,6 +73,16 @@ const LoginForm = (props) => {
                 <input type="checkbox" name="rememberMe" onChange={formik.handleChange} />RememberMe
                 </label>
             </div>
+            {formik.status && <div className={styles.statusError}>{formik.status}</div> }
+            {props.captchaUrl && <img src={props.captchaUrl} alt={props.captchaUrl} /> }
+            {props.captchaUrl && <input
+                name="captcha"
+                type="text"
+                placeholder="Enter captcha"
+                onChange={formik.handleChange}
+                value={formik.values.captcha}
+                onBlur={formik.handleBlur}
+            /> }
             <div>
                 <Button type="submit" color="primary" variant="contained" >Login</Button>
             </div>
@@ -81,6 +91,7 @@ const LoginForm = (props) => {
 }
 
 const mapStateToProps = (state) => ({
+    captchaUrl: state.auth.captchaUrl,
     isAuth: state.auth.isAuth
 })
 

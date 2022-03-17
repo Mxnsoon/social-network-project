@@ -15,5 +15,6 @@ export const sendMessageValidator = Yup.object({
 export const loginValidator = Yup.object({
     email: Yup.string().email('Неправильный email').required('Заполните это поле'),
     password: Yup.string()
-        .required('Введите пароль')
+        .required('Введите пароль'),
+    captcha: Yup.string()
 })
