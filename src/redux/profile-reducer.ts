@@ -6,16 +6,36 @@ const SET_STATUS = 'SET_STATUS';
 const DELETE_POST = 'DELETE_POST';
 const SAVE_PHOTO_SUCCESS = 'SAVE_PHOTO_SUCCESS';
 
+type ContactsType = {
+    github: string
+    vk: string
+    facebook: string
+    instagram: string
+    g: string
+}
+
+type ProfileType = {
+    userId: number
+    lookingForAJob: boolean
+    lookingForAJobDescription: string
+    fullName: string
+}
+
+type PostType = {
+    id: number
+    message: string
+    likeCount: number
+}
+
 let initialState = {
     posts: [
         {id: 1, message: 'Hi, how are you?', likesCount: 12},
         {id: 2, message: 'It\'s my first post', likesCount: 11},
         {id: 3, message: 'Blablabla', likesCount: 11},
         {id: 4, message: 'Dada', likesCount: 11}
-    ],
-    profile: null,
+    ] as Array<PostType>,
+    profile: null as ProfileType | null,
     status: '',
-    profileUpdateStatus: 'none'
 }
 
 const profileReducer = (state = initialState, action) => {
