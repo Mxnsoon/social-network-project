@@ -43,7 +43,7 @@ class App extends Component {
                     <Switch>
                         <Route path='/dialogs' render={withSuspense(DialogsContainer)}/>
                         <Route path='/profile/:userId?' render={withSuspense(ProfileContainer)}/>
-                        <Route path='/users' render={() => <UsersContainer/>}/>
+                        <Route path='/users' render={() => <UsersContainer pageTitle={"Самураи"}/>}/>
                         <Route path='/login' render={() => <LoginPage/>}/>
                         <Redirect exact from="/" to="/profile" />
                         <Route path="*"
