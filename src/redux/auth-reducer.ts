@@ -1,4 +1,4 @@
-import {authAPI, securityAPI} from "../api/api";
+import {authAPI, ResultCodeEnum, ResultCodeForCaptcha, securityAPI} from "../api/api";
 
 const SET_USER_DATA = 'social-network/auth/SET_USER_DATA'
 const GET_CAPTCHA_URL_SUCCESS = 'social-network/auth/GET_CAPTCHA_URL_SUCCESS'
@@ -68,22 +68,22 @@ export const getCaptchaUrlSuccess = (captchaUrl: string): getCaptchaUrlSuccessAc
 export const removeCaptcha = () => ({ type: REMOVE_CAPTCHA_AFTER_SUCCESS_LOGIN })
 
 export const getAuthUserData = () => async (dispatch: any) => {
-    let response = await authAPI.me();
-    if (response.data.resultCode === 0) {
-        let {id, login, email} = response.data.data;
+    let meData = await authAPI.me();
+    if (meData.resultCode === ResultCodeEnum.Success) {
+        let {id, login, email} = meData.data;
         dispatch(setAuthUserData(id, email, login, true))
     }
 }
 
 export const login = (email: string, password: string, rememberMe: boolean, captcha: string, actions: any) => async (dispatch: any) => {
-    let response = await authAPI.login(email, password, rememberMe, captcha);
-    if (response.data.resultCode === 0) {
+    let loginData = await authAPI.login(email, password, rememberMe, captcha);
+    if (loginData.resultCode === ResultCodeEnum.Success) {
         dispatch(getAuthUserData())
     } else {
-        if (response.data.resultCode === 10) {
+        if (loginData.resultCode === ResultCodeForCaptcha.CaptchaIsRequired) {
             dispatch(getCaptchaUrl())
         }
-        actions.setStatus(response.data.messages)
+        actions.setStatus(loginData.messages)
     }
 }
 
