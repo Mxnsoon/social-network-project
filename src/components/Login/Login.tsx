@@ -1,5 +1,5 @@
 import React from 'react';
-import {useFormik} from "formik";
+import {useFormik, FormikProps} from "formik";
 import {connect} from "react-redux";
 import {login} from "../../redux/auth-reducer";
 import Button from '@material-ui/core/Button';
@@ -7,8 +7,9 @@ import TextField from '@material-ui/core/TextField';
 import {loginValidator} from "../../utils/validators/validators";
 import {Redirect} from "react-router-dom";
 import styles from './Login.module.css'
+import {AppStateType} from "../../redux/redux-store";
 
-const Login = (props) => {
+const Login: React.FC<MapStatePropsType & MapDispatchPropsType> = (props) => {
 
     if (props.isAuth)
         return <Redirect to={"/profile"} />
@@ -21,8 +22,20 @@ const Login = (props) => {
     );
 };
 
-const LoginForm = (props) => {
-    const formik = useFormik({
+type MyValuesTypes = {
+    email: string
+    password: string
+    rememberMe: boolean
+    captcha: string
+}
+
+type LoginFormPropsType = {
+    login: (email: string, password: string, rememberMe: boolean, captcha: string, actions: any) => void
+    captchaUrl: string | null
+}
+
+const LoginForm: React.FC<LoginFormPropsType> = (props) => {
+    const formik: FormikProps<MyValuesTypes> = useFormik<MyValuesTypes>({
         initialValues: {
             email: '',
             password: '',
@@ -90,7 +103,16 @@ const LoginForm = (props) => {
     )
 }
 
-const mapStateToProps = (state) => ({
+type MapStatePropsType = {
+    captchaUrl: string | null
+    isAuth: boolean
+}
+
+type MapDispatchPropsType = {
+    login: (email: string, password: string, rememberMe: boolean, captcha: string, actions: any) => void
+}
+
+const mapStateToProps = (state: AppStateType): MapStatePropsType => ({
     captchaUrl: state.auth.captchaUrl,
     isAuth: state.auth.isAuth
 })
