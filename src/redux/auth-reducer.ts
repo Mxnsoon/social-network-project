@@ -1,4 +1,6 @@
-import {authAPI, ResultCodeEnum, ResultCodeForCaptcha, securityAPI} from "../api/api";
+import {ResultCodeEnum, ResultCodeForCaptchaEnum} from "../api/api";
+import {authAPI} from "../api/auth-api";
+import {securityAPI} from "../api/security-api";
 
 const SET_USER_DATA = 'social-network/auth/SET_USER_DATA'
 const GET_CAPTCHA_URL_SUCCESS = 'social-network/auth/GET_CAPTCHA_URL_SUCCESS'
@@ -80,7 +82,7 @@ export const login = (email: string, password: string, rememberMe: boolean, capt
     if (loginData.resultCode === ResultCodeEnum.Success) {
         dispatch(getAuthUserData())
     } else {
-        if (loginData.resultCode === ResultCodeForCaptcha.CaptchaIsRequired) {
+        if (loginData.resultCode === ResultCodeForCaptchaEnum.CaptchaIsRequired) {
             dispatch(getCaptchaUrl())
         }
         actions.setStatus(loginData.messages)
@@ -88,8 +90,8 @@ export const login = (email: string, password: string, rememberMe: boolean, capt
 }
 
 export const getCaptchaUrl = () => async (dispatch: any) => {
-    const response = await securityAPI.getCaptchaUrl();
-    const captchaUrl = response.data.url;
+    const data = await securityAPI.getCaptchaUrl();
+    const captchaUrl = data.url;
     dispatch(getCaptchaUrlSuccess(captchaUrl));
 }
 
