@@ -28,9 +28,7 @@ let initialState = {
     ] as Array<DialogType>,
 }
 
-export type InitialStateType = typeof initialState
 
-type ActionsType = InferActionsTypes<typeof actions>
 
 export const dialogsReducer = (state = initialState, action: ActionsType): InitialStateType => {
 
@@ -52,3 +50,6 @@ export const actions = {
 }
 
 export default dialogsReducer;
+
+export type InitialStateType = typeof initialState
+type ActionsType = InferActionsTypes<typeof actions>
