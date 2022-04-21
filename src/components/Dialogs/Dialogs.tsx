@@ -2,21 +2,23 @@ import React from 'react';
 import s from './Dialogs.module.css';
 import DialogItem from "./DialogItem/DialogItem";
 import Message from "./Message/Message";
-import {Redirect} from "react-router-dom";
-import {useFormik} from "formik";
+import {FormikProps, useFormik} from "formik";
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import {sendMessageValidator} from "../../utils/validators/validators";
+import {InitialStateType} from "../../redux/dialogs-reducer";
 
-const Dialogs = (props) => {
+type PropsType = {
+    dialogsPage: InitialStateType
+    sendMessage: (message: string) => void
+}
+
+const Dialogs: React.FC<PropsType> = (props) => {
 
     let state = props.dialogsPage;
 
-    if (!props.isAuth) return <Redirect to={"/login"}/>;
-
     let dialogsElements = state.dialogs.map(d => <DialogItem name={d.name} key={d.id} id={d.id}/>);
     let messagesElements = state.messages.map(m => <Message message={m.message} key={m.id}/>)
-    let newMessageBody = state.newMessageText
 
     return (
         <div className={s.dialogs}>
@@ -31,9 +33,17 @@ const Dialogs = (props) => {
     )
 }
 
-const AddMessageForm = (props) => {
+type DialogsValuesType = {
+    message: string
+}
 
-    const formik = useFormik({
+type AddMessageFormType = {
+    sendMessage: (message: string) => void
+}
+
+const AddMessageForm: React.FC<AddMessageFormType> = (props) => {
+
+    const formik: FormikProps<DialogsValuesType> = useFormik<DialogsValuesType>({
         initialValues: {
             message: '',
         },
